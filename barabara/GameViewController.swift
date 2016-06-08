@@ -10,17 +10,17 @@ import UIKit
 
 class GameViewController: UIViewController {
 
-    @IBOutlet var imgView1 :UIImageView! //top
-    @IBOutlet var imgView2 :UIImageView! //mid
-    @IBOutlet var imgView3 :UIImageView! //bottom
+    @IBOutlet var imgView1: UIImageView! //top
+    @IBOutlet var imgView2: UIImageView! //mid
+    @IBOutlet var imgView3: UIImageView! //bottom
     
     @IBOutlet var resultLabel: UILabel! //Score label
     
-    var timer :NSTimer! //Timer
+    var timer: NSTimer! //Timer
     var score: Int = 1000 //Score
     let defaults: NSUserDefaults = NSUserDefaults.standardUserDefaults() //saving scores
     
-    let width :CGFloat = UIScreen.mainScreen().bounds.size.width //screen width iPhoneのスクリーンサイズを取得している
+    let width: CGFloat = UIScreen.mainScreen().bounds.size.width //screen width iPhoneのスクリーンサイズを取得している
     
     var positionX: [CGFloat] = [0.0,0.0,0.0] //image pos
     
@@ -29,16 +29,12 @@ class GameViewController: UIViewController {
     func start(){
         resultLabel.hidden = true
         
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.005, target: self, selector: "up", userInfo: nil, repeats: true)
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.005, target: self, selector: #selector(self.up), userInfo: nil, repeats: true)
         timer.fire()
     }
-    
-    func up()
-    {
-        for i in 0..<3
-        {
-            if positionX[i] > width||positionX[i] < 0
-            {
+    func up(){
+        for i in 0..<3{
+            if positionX[i]>width || positionX[i] < 0{
                 dx[i] = dx[i] * (-1)
             }
             positionX[i] += dx[i]
@@ -50,13 +46,13 @@ class GameViewController: UIViewController {
     
     @IBAction func stop(){
         if timer.valid == true{
-            timer.invalidate()
+        timer.invalidate()
         }
-    for i in 0..<3{
-    score = score - abs(Int(width/2 - positionX[i]))*2
+        for i in 0..<3{
+            score = score - abs(Int(width/2 - positionX[i]))*2
         }
-    resultLabel.text = String(score)
-    resultLabel.hidden = false
+        resultLabel.text = String(score)
+        resultLabel.hidden = false
         
         var highscore1: Int = defaults.integerForKey("score1")
         var highscore2: Int = defaults.integerForKey("score2")
@@ -89,7 +85,7 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        positionX = [width/2 , width/2 , width/2]
+        positionX = [width/2, width/2, width/2]
         
         self.start()
 
